@@ -3,12 +3,10 @@ import { PCDLoader } from 'three/addons/loaders/PCDLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 const container = document.getElementById('canvas-container');
-const mediaContainer = document.getElementById('media-container')
 const scene = new THREE.Scene();
 
-const rect = mediaContainer.getBoundingClientRect()
 const aspect = window.innerWidth / (window.innerHeight * 0.6);
-const frustumSize = 0.16;
+const frustumSize = 0.1;
 const camera = new THREE.OrthographicCamera(
     (frustumSize * aspect) / -2,
     (frustumSize * aspect) / 2,
@@ -72,7 +70,6 @@ toggleBtn.addEventListener('click', () => {
 });
 
 window.addEventListener('resize', () => {
-    const newRect = mediaContainer.getBoundingClientRect();
     const newAspect = window.innerWidth / (window.innerHeight * 0.6);
     camera.left = (frustumSize * newAspect) / -2;
     camera.right = (frustumSize * newAspect) / 2;
