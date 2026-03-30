@@ -6,7 +6,7 @@ const container = document.getElementById('canvas-container');
 const scene = new THREE.Scene();
 
 const aspect = window.innerWidth / (window.innerHeight * 0.6);
-const frustumSize = 0.1;
+const frustumSize = 0.14;
 const camera = new THREE.OrthographicCamera(
     (frustumSize * aspect) / -2,
     (frustumSize * aspect) / 2,
