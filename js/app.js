@@ -3,12 +3,12 @@ import { PCDLoader } from 'three/addons/loaders/PCDLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 const container = document.getElementById('canvas-container');
-const mediaContainer = document.getElementById('media-container')
+const mediaContainer = document.getElementById('media-container');
 const scene = new THREE.Scene();
 
-const rect = mediaContainer.getBoundingClientRect()
-const aspect = window.innerWidth / (window.innerHeight * 0.6);
-const frustumSize = 0.16;
+const rect = mediaContainer.getBoundingClientRect();
+const aspect = rect.width / rect.height;
+const frustumSize = 0.14;
 const camera = new THREE.OrthographicCamera(
     (frustumSize * aspect) / -2,
     (frustumSize * aspect) / 2,
@@ -22,7 +22,7 @@ camera.position.set(1, 1, 1);
 
 const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: "high-performance" });
 renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth, window.innerHeight * 0.6);
+renderer.setSize(rect.width, rect.height);
 container.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -61,7 +61,14 @@ toggleBtn.addEventListener('click', () => {
     if (showingVideo) {
         container.style.display = 'none';
         videoPlayer.style.display = 'block';
-        videoPlayer.play();
+
+        const playPromise = videoPlayer.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log(error);
+            });
+        }
+
         toggleBtn.textContent = 'Switch to 3D';
     } else {
         container.style.display = 'block';
@@ -73,13 +80,13 @@ toggleBtn.addEventListener('click', () => {
 
 window.addEventListener('resize', () => {
     const newRect = mediaContainer.getBoundingClientRect();
-    const newAspect = window.innerWidth / (window.innerHeight * 0.6);
+    const newAspect = newRect.width / newRect.height;
     camera.left = (frustumSize * newAspect) / -2;
     camera.right = (frustumSize * newAspect) / 2;
     camera.top = frustumSize / 2;
     camera.bottom = frustumSize / -2;
     camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight * 0.6);
+    renderer.setSize(newRect.width, newRect.height);
 });
 
 const gisToggleBtn = document.getElementById('gis-toggle-btn');
