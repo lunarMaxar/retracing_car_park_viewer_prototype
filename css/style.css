@@ -102,11 +102,3 @@ body, html {
     cursor: pointer;
     z-index: 10;
 }
-
-@media (max-width:768px){
-    #media-container{
-        height: 100%;
-        top: 0;
-        transform: none;
-    }
-}
